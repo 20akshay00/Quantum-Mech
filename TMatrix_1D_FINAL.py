@@ -4,18 +4,17 @@ from scipy.signal import argrelextrema
 
 
 #constants
-m=1.0
-h=1.0
+m=1.0 #mass of particle
+h=1.0 #plancks constant/ natural units
+
+#incident energy range of particle
 erange=np.concatenate([np.arange(0,0.621,0.01),np.arange(0.620,0.623,0.000001), np.arange(0.623,2.5,0.001), np.arange(2.5, 5, 0.1)])
 
+dx=0.005 #step size in discrete grid
+x=np.arange(-15.0,15.0,dx) #discretized position grid 
 
-wid=15
-depth=-40
-dx=0.005
-x=np.arange(-15.0,15.0,dx)
-
-'''
-def convert(x):
+''' #GAUSSIAN POTENTIAL BARRIER
+def convert(x): 
     f=[ 3*np.exp(-val**2)/np.pi**0.5 for val in x]
     potential=[]
     for i in range(0,len(f),2):
@@ -24,7 +23,8 @@ def convert(x):
         
     return potential
 '''
-'''
+
+''' #DOUBLE BARRIER POTENTIAL (SQUARE)
 def convert(position):
     v=[]
     for x in position:
@@ -38,16 +38,16 @@ def convert(position):
     return np.array(v)    
 '''
 
-def convert(position):
+def convert(position): #DOUBLE BARRIER POTENTIAL
     f=[(0.5*val**2 - 0.8)* np.exp(-0.1*val**2) for val in position]
     potential=[]
-    for i in range(0,len(f),2):
+    for i in range(0,len(f),2): #approximate continuous function as series of step functions
         potential.append((f[i]+f[i+1])/2.0)
         potential.append((f[i]+f[i+1])/2.0)
         
     return potential
 
-def mMatrix(E,V,a1,a2):
+def mMatrix(E,V,a1,a2): #aids in computation of the transfer matrix
     delta=a2-a1
     if E>V:
         k=(2*m*(E-V)/h**2)**0.5
@@ -61,7 +61,7 @@ def mMatrix(E,V,a1,a2):
         M=np.reshape(np.array([np.cosh(k*delta),-(1/k)*np.sinh(k*delta),-k*np.sinh(k*delta),np.cosh(k*delta)]),(2,2))
         return M
     
-def trans_coeff(E,boundary):
+def trans_coeff(E,boundary): #calculates transmission coefficient after finding overall m-Matrix
     mMat=np.reshape(np.array([1,0,0,1]),(2,2))
     
     for val in boundary:
@@ -73,10 +73,10 @@ def trans_coeff(E,boundary):
     if kl==0:
         kl=(2*m*abs(E-0.01-boundary[0][0])/h**2)**0.5
         
-    tcoeff=4/((mMat[0][0]+(kr/kl)*mMat[1][1])**2+(kr*mMat[0,1]-(1/kl)*mMat[1][0])**2)
+    tcoeff=4/((mMat[0][0]+(kr/kl)*mMat[1][1])**2+(kr*mMat[0,1]-(1/kl)*mMat[1][0])**2) #finds the transmission coefficient
     return tcoeff
 
-def driver():
+def driver(): #driver code that finds transmission coefficients over given energy range
     potential = convert(x)
     boundaryval=[]
 
@@ -94,7 +94,7 @@ def driver():
     
     return coeff
 
-def driver2():
+def plotting(): #plots the results and outputs maxima/minima points
     fig, ax1 = plt.subplots()
 
     left, bottom, width, height = [0.5, 0.2, 0.3, 0.3]
