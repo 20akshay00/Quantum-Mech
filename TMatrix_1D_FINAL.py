@@ -103,8 +103,8 @@ def plotting(): #plots the results and outputs maxima/minima points
     ax2 = fig.add_axes([left, bottom, width, height])
     coefflist=driver()
     
-    print(erange[argrelextrema(np.array(coefflist), np.greater)[0]])
-    print(erange[argrelextrema(np.array(coefflist), np.less)[0]])
+    print(erange[argrelextrema(np.array(coefflist), np.greater)[0]]) #gives local maxima
+    print(erange[argrelextrema(np.array(coefflist), np.less)[0]]) #gives local minima
     
     ax1.plot(erange, coefflist)
     axes = plt.gca()
