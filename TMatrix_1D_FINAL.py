@@ -95,7 +95,7 @@ def driver(): #driver code that finds transmission coefficients over given energ
     return coeff
 
 def plotting(): #plots the results and outputs maxima/minima points
-    fig, ax1 = plt.subplots()
+    fig, ax1 = plt.subplots();
 
     left, bottom, width, height = [0.5, 0.2, 0.3, 0.3]
     plt.xlabel("Energy")
