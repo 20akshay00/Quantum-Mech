@@ -9,3 +9,8 @@ This repo holds my first coding 'project' and involves the work I did in Summer 
 - The [third file](Tmatrix_1D_FINAL.py) involves T-matrix calculations to find the scattering co-efficients of a plane-wave incident on a 1D potential, as a function of its incident energy.
 
 The methods used are elaborated in the [report](/report/2020report.pdf). 
+
+#### Resources
+
+- [Elementary Quantum Mechanics in one dimension](http://www.physics.drexel.edu/~bob/NewBook.pdf)
+- [Computational Quantum Mechanics](https://www.springer.com/gp/book/9783319999296)
